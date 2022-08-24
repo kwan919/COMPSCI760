@@ -7,6 +7,7 @@ class Restructure():
         self.origin_data = origin_data
     
     def process(self, index_name: str, feature_name: str, new_feature_name: str) -> DataFrame:
+        """ transpose the raw data to feature data"""
         new_data = np.array([])
         index_list = np.array([])
         for index, group in self.origin_data.groupby(index_name):
