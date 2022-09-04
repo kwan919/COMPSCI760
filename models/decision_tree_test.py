@@ -1,25 +1,27 @@
-from sklearn.neural_network import MLPClassifier
+from sklearn import tree
 from sklearn.model_selection import cross_val_score
 from pandas import DataFrame
 
-class Ann_Test():
-    """Test class for ANN
+from numpy import ndarray
+
+
+class Decision_Tree_test():
+    """Test class for decision tree
     """
-    def __init__(self, layer_size: int, random_state: int, X, y) -> None:
-        """Init a ANN model with a layer size and random seed
+    def __init__(self, random_state: int, X, y) -> None:
+        """Init a basic decision tree model
             Set training feature X and training label y
 
         Args:
-            layer_size (int): set the layer size
             random_state (int): set a random seed
             X (_type_): training feature
             y (_type_): training label
         """
-        self.model = MLPClassifier(hidden_layer_sizes=(layer_size,), random_state=random_state)
+        self.model = tree.DecisionTreeClassifier(random_state=random_state)
         self.X = X
         self.y = y
 
-    def test(self, cv: int):
+    def test(self, cv: int) -> ndarray:
         """Run the model with cross validation and return scores
 
         Args:
