@@ -1,15 +1,15 @@
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import cross_val_score
 
 from numpy import ndarray
 
 
-class Decision_Tree_test():
-    """Test class for decision tree
+class Random_Forest_test():
+    """Test class for random forest
     """
 
     def __init__(self, random_state: int, X, y) -> None:
-        """Init a basic decision tree model
+        """Init a basic random forest model
             Set training feature X and training label y
 
         Args:
@@ -17,7 +17,7 @@ class Decision_Tree_test():
             X (_type_): training feature
             y (_type_): training label
         """
-        self.model = DecisionTreeClassifier(random_state=random_state)
+        self.model = RandomForestClassifier(random_state=random_state)
         self.X = X
         self.y = y
 

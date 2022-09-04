@@ -1,15 +1,15 @@
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import cross_val_score
 
 from numpy import ndarray
 
 
-class Decision_Tree_test():
-    """Test class for decision tree
+class Knn_test():
+    """Test class for K nearest neighbors
     """
 
     def __init__(self, random_state: int, X, y) -> None:
-        """Init a basic decision tree model
+        """Init a basic K nearest neighbors model
             Set training feature X and training label y
 
         Args:
@@ -17,7 +17,7 @@ class Decision_Tree_test():
             X (_type_): training feature
             y (_type_): training label
         """
-        self.model = DecisionTreeClassifier(random_state=random_state)
+        self.model = KNeighborsClassifier(random_state=random_state)
         self.X = X
         self.y = y
 
