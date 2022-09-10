@@ -23,7 +23,6 @@ class Read_Paderborn_Mat():
         data = [row["Data"] for row in mat]
         feature_dict = dict()
         for n, d in zip(name, data):
-            print(n, "with length", len(d))
             feature_dict[n] = d
 
         # 4kHz
