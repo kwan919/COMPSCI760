@@ -1,3 +1,4 @@
+from unicodedata import name
 import pandas as pd
 from pandas import DataFrame
 import numpy as np
@@ -6,16 +7,36 @@ class Restructure():
     def __init__(self, csv_data: DataFrame) -> None:
         self.csv_data = csv_data
     
-    def process(self, index_name: str, feature_name: str, new_feature_name: str) -> DataFrame:
-        """ transpose the raw data to feature data"""
-        new_data = np.array([])
-        index_list = np.array([])
-        for index, group in self.csv_data.groupby(index_name):
-            index_list = np.append(index_list, index)
-            new_data = np.append(new_data, group[feature_name].to_numpy())
-        new_data = new_data.reshape((len(index_list), -1))
-        new_df = pd.DataFrame(new_data, index=index_list)
-        new_df.index.name = index_name
-        new_df.columns = [new_feature_name+str(i) for i in range(len(new_data[0]))]
-        return new_df
+    def to_windows(self, m: int) -> DataFrame:
+        """Transform the data from raw to the windowed data
+            row size = m x number_of_features, 
+                The last data could not form a window will be dropped
+
+        Args:
+            m (int): number of features in windows
+
+        Returns:
+            DataFrame: The windowed data
+        """
+        total_length = len(self.csv_data)
+        number_of_windows = int(total_length / m)
+        columns_name = self.csv_data.columns
+        columns_length = len(columns_name)
+
+        data_array = self.csv_data.to_numpy()[:number_of_windows*m, :]
+        new_data_array = np.empty((0, m * columns_length), dtype=data_array.dtype)
+        for row_matrix in np.array_split(data_array, number_of_windows):
+            new_data_array = np.vstack((new_data_array, np.array(row_matrix.T.flat)))
         
+        new_columns_name = []
+        for name in columns_name:
+            for i in range(m):
+                new_columns_name.append(name + "_" + str(i))
+
+        return DataFrame(new_data_array, columns=new_columns_name)
+
+a = {"1": [1,2,3,4,5,6,7,8,9,0],
+     "2": [1,2,3,4,5,6,7,8,9,0],
+     "3": [1,2,3,4,5,6,7,8,9,0]}
+x = Restructure(DataFrame(a))
+print(x.to_windows(2))

@@ -18,7 +18,7 @@ class Read_Paderborn_Mat():
         """
         mat_file = loadmat(file_path, simplify_cells=True)
         mat = {k: v for k, v in mat_file.items() if k[0] != "_"}
-        mat = mat[file_path[file_path.rfind("\\") + 1:-4]]["Y"]
+        mat = mat[file_path[file_path.rfind("/") + 1:-4]]["Y"]
         name = [row["Name"] for row in mat]
         data = [row["Data"] for row in mat]
         feature_dict = dict()
