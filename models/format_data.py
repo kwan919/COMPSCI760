@@ -1,6 +1,7 @@
-from pandas import DataFrame
 import numpy as np
 
+from pandas import DataFrame
+from tqdm import tqdm
 
 class Restructure():
     def __init__(self, csv_data: DataFrame) -> None:
@@ -23,11 +24,11 @@ class Restructure():
         columns_length = len(columns_name)
 
         data_array = self.csv_data.to_numpy()[:number_of_windows*m, :]
-        new_data_array = np.empty(
-            (0, m * columns_length), dtype=data_array.dtype)
-        for row_matrix in np.array_split(data_array, number_of_windows):
-            new_data_array = np.vstack(
-                (new_data_array, np.array(row_matrix.T.flat)))
+        new_data_array = np.array([])
+        for row_matrix in tqdm(np.array_split(data_array, number_of_windows)):
+            new_data_array = np.append(
+                new_data_array, row_matrix.flatten("F"))
+        new_data_array = new_data_array.reshape(-1, m*columns_length)
 
         new_columns_name = []
         for name in columns_name:
