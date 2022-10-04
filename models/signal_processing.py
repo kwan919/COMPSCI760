@@ -51,6 +51,6 @@ def add_rayleigh(v, snr, norm=True):
         data = normalize_data(data)
     m = 10**(snr/20)  # snr: 20*log(As/An) and Ps is 1(nomalized)
     n = np.random.rayleigh(size=len(data)).reshape(-1, 1)
-    n = normalize_data(n)*m
+    n = normalize_data(n)/m
     data = np.add(n, data)
     return data
